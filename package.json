@@ -1,0 +1,45 @@
+{
+  "name": "mcp-server",
+  "type": "module",
+  "version": "1.0.0",
+  "private": "true",
+  "packageManager": "pnpm@10.30.3",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "main": "index.js",
+  "scripts": {
+    "commitlint": "commitlint --edit",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "preinstall": "npx only-allow pnpm",
+    "dev": "tsdown --config=tsdown.config.dev.ts",
+    "build": "tsdown --config=tsdown.config.build.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^7.7.3",
+    "@commitlint/cli": "^20.5.0",
+    "@commitlint/config-conventional": "^20.5.0",
+    "@types/node": "^25.5.0",
+    "eslint": "^10.1.0",
+    "eslint-plugin-format": "^2.0.1",
+    "lint-staged": "^16.4.0",
+    "simple-git-hooks": "^2.13.1",
+    "tsdown": "^0.21.4",
+    "typescript": "^6.0.2"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "commit-msg": "pnpm commitlint"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --fix"
+    ]
+  }
+}
