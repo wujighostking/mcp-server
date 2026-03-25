@@ -1,9 +1,15 @@
-shellEmulator: true
-
-trustPolicy: no-downgrade
-
 packages:
   - packages/*
 
 onlyBuiltDependencies:
+  - '@nestjs/core'
   - simple-git-hooks
+
+shellEmulator: true
+
+trustPolicy: no-downgrade
+
+trustPolicyExclude:
+  - chokidar@4.0.3
+  - undici-types@6.21.0
+  - semver@6.3.1

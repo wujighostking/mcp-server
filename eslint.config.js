@@ -5,6 +5,7 @@ export default defineConfig(
     formatters: true,
     pnpm: true,
     typescript: true,
+    ignores: ['packages/nest'],
   },
   {
     rules: {
