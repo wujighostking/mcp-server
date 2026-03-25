@@ -2,7 +2,7 @@ import type { UserConfig } from 'tsdown'
 import { readdirSync } from 'node:fs'
 import { defineConfig } from 'tsdown'
 
-export const config: UserConfig[] = readdirSync('./packages').map(dir => ({
+export const config: UserConfig[] = readdirSync('./packages').filter(dir => dir !== 'nest').map(dir => ({
   platform: 'node',
   format: 'esm',
   dts: { build: true },

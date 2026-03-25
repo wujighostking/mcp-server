@@ -15,7 +15,7 @@
     "lint:fix": "eslint --fix",
     "preinstall": "npx only-allow pnpm",
     "dev": "tsdown --config=tsdown.config.dev.ts",
-    "build": "tsdown --config=tsdown.config.build.ts"
+    "build": "tsdown --config=tsdown.config.build.ts & pnpm --filter=nest run build "
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.27.1",
