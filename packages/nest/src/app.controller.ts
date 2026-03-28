@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Controller, Post, Req, Res, Request, Response } from '@nestjs/common';
 import { AppService } from './app.service';
 
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { z } from 'zod';
 import crypto from 'node:crypto';
+import { ServerRegister } from './server.register'
 
 @Controller()
 export class AppController {
@@ -13,37 +13,21 @@ export class AppController {
     new StreamableHTTPServerTransport({
       sessionIdGenerator: () => crypto.randomUUID(),
     });
+  private register: ServerRegister;
 
   constructor(private readonly appService: AppService) {
-    this.server.registerTool(
-      'sum',
-      {
-        title: 'Sum',
-        description: '计算两数之和',
-        inputSchema: {
-          a: z.number().describe('第一个数字'),
-          b: z.number().describe('第二个数字'),
-        },
-      },
-      async ({ a, b }) => {
-        const sum = a + b;
-
-        return {
-          content: [
-            {
-              type: 'text',
-              text: sum.toString(),
-            },
-          ],
-        };
-      },
-    );
-
-    this.server.connect(this.transport);
+    this.register = new ServerRegister(this.server)
+    this.initServer();
   }
 
   @Post()
-  summary(@Req() req: any, @Res() res: any) {
-    return this.transport.handleRequest(req, res, req.body); // res.send('hello world1') //this.appService.summarize(req, res);
+  summary(@Req() req: Request, @Res({passthrough: true}) res: Response) {
+    return this.appService.summarize(req, res, this.transport) // res.send('hello world1') //this.appService.summarize(req, res);
+  }
+
+  private initServer() {
+    this.register.register()
+
+    this.server.connect(this.transport);
   }
 }
