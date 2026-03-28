@@ -9,6 +9,7 @@ export class ServerRegister {
   register() {
     this.sumRegister()
     this.multiplyRegister()
+    this.helloRegister()
   }
 
   private sumRegister() {
@@ -61,5 +62,28 @@ export class ServerRegister {
         };
       }
     )
+  }
+
+    private helloRegister() {
+      this.server.registerTool(
+        'hello',
+        {
+          title: 'Hello',
+          description: '问候用户',
+          inputSchema: {
+            text: z.string().describe('用户输入你好')
+          },
+        },
+        async () => {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: '你也好，欢迎使用MCP服务器！',
+              },
+            ],
+          };
+        }
+      )
   }
 }
